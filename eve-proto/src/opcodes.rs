@@ -15,8 +15,13 @@ pub enum EVEOpCode {
     LongString = 0x13,
     Tuple = 0x14,
     Dict = 0x16,
+    Object = 0x17,
+    EmptyTuple = 0x24,
+    OneTuple = 0x25,
+    SubStream = 0x2b,
     TwoTuple = 0x2c,
     WStringUTF8 = 0x2e,
+    VarInteger = 0x2f
 }
 
 impl Into<u8> for EVEOpCode {

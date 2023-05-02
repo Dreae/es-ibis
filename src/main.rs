@@ -1,5 +1,12 @@
 use std::time::SystemTime;
 use fern::colors::{Color, ColoredLevelConfig};
+use tokio::net::TcpListener;
+
+use crate::net::EVEServer;
+
+mod net;
+
+const VERSION: &'static str = "v0.0.1";
 
 fn setup_logger() -> Result<(), fern::InitError> {
     let colors = ColoredLevelConfig::default()
@@ -14,16 +21,21 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(log::LevelFilter::Debug)
+        .level(log::LevelFilter::Trace)
         .chain(std::io::stdout())
         .apply()?;
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     setup_logger()?;
 
-    log::info!("Hello, world!");
+    log::info!("es-ibis version {}", self::VERSION);
+    let listener = TcpListener::bind("127.0.0.1:26000").await?;
+    let mut server = EVEServer::new(listener);
+
+    server.run().await;
 
     Ok(())
 }

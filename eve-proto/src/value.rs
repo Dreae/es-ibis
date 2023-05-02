@@ -5,9 +5,12 @@ use std::collections::BTreeMap;
 pub enum EVEValue<'a> {
     Tuple(Vec<EVEValue<'a>>),
     Dict(BTreeMap<HashableEVEValue<'a>, EVEValue<'a>>),
+    Object(Vec<EVEValue<'a>>),
+    SubStream(Vec<EVEValue<'a>>),
     Byte(u8),
     Short(i16),
     Integer(i64),
+    BigInt(i128),
     Float(f64),
     String(&'a OsStr),
     OwnedString(String),
